@@ -21,33 +21,32 @@ namespace SensitiveWordsAPI.Controllers
         {
             _service = sensitiveWords;
         }
+       
         [HttpGet("import-data")]
         private ResponseModel ImportTextData()
         {
             var check = ImportData.ReadFile();
-            
+
             foreach (var item in check)
             {
-                var wor = item;
-                if(!wor.Contains("[") || !wor.Contains("]"))
-                 _service.AddWord(wor).GetAwaiter().GetResult();               
+                _service.AddWord(item).GetAwaiter().GetResult();
             }
 
-            return new ResponseModel {IsSuccessful=true };
+            return new ResponseModel { IsSuccessful = true };
         }
         [HttpPost("add-word")]
         private async Task<object> AddWord(string message)
         {
             var results = await _service.AddWord(message);
-            if(results > 0)
-                return new ResponseModel { IsSuccessful = true};
+            if (results > 0)
+                return new ResponseModel { IsSuccessful = true };
 
             return new ResponseModel { IsSuccessful = false };
         }
         [HttpPost("update-word")]
         private async Task<object> UpdateWord(Guid id, string name)
         {
-            var results = await _service.UpdateWord(id,name);
+            var results = await _service.UpdateWord(id, name);
             if (results)
                 return new ResponseModel { IsSuccessful = true };
 
@@ -77,10 +76,12 @@ namespace SensitiveWordsAPI.Controllers
                     if (word == m)
                     {
                         var star = StarOutSensitiveWord.StarOutWord(m);
-                        output.Append(star + m);
+                        output.Append(star);
                     }
-                }                
-            }           
+                    else
+                        output.Append(m);
+                }
+            }
 
             return new ResponseModel { IsSuccessful = false, Result = output.ToString() };
         }
