@@ -39,7 +39,6 @@ namespace SensitiveWordsAPI.Repository.Impl
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

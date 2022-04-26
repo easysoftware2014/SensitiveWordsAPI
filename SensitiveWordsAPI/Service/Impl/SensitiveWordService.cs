@@ -39,9 +39,9 @@ namespace SensitiveWordsAPI.Service.Impl
             return await _repository.UpdateWord(id, name);
         }
 
-        Task<List<Word>> ISensitiveWords.GetAllWord()
+        public async Task<List<Word>> GetAllTheWords()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAllWord();
         }
     }
 }
